@@ -15,12 +15,9 @@ bool palim(char s[], int n)
     return true;
 }
 
-int main()
+int main(int argc, char** argv)
 {
-    char str[] = "radar";
-    bool palindromo = false;
-
-    palindromo = palim(str, 5);
+    bool palindromo = palim(argv[1], strlen(argv[1]));
 
     if (palindromo)
         printf("true\n");
