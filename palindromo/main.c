@@ -15,9 +15,18 @@ bool palim(char s[], int n)
     return true;
 }
 
-int main(int argc, char** argv)
+bool palim_recursivo(char *s, int ini, int fim)
 {
-    bool palindromo = palim(argv[1], strlen(argv[1]));
+    if ((fim - ini) <= 0)
+        return true;
+    if (s[ini] != s[fim])
+        return false;
+    return palim_recursivo(s, ini + 1, fim - 1);
+}
+
+int main(int argc, char **argv)
+{
+    bool palindromo = palim_recursivo(argv[1], 0, strlen(argv[1]) - 1);
 
     if (palindromo)
         printf("true\n");
