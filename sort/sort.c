@@ -1,4 +1,16 @@
 #include "sort.h"
+#include <stdlib.h>
+
+int* vetorAleatorio(int n, int seed, int max) {
+    srand(seed);
+    int *v = malloc(sizeof(int) * n);
+
+    for (int i = 0; i < n; i++) {
+        v[i] = (rand() % max) + 1;
+    }
+
+    return v;
+}
 
 int pmax(int *v, int ini, int fim)
 {
@@ -24,5 +36,17 @@ void selectionSort(int *v, int qtd)
     {
         int maior = pmax(v, 0, i);
         trocar(v, maior, i);
+    }
+}
+
+void bubbleSort(int *v, int n)
+{
+    for (int j = n - 1; j >= 1; j--)
+    {
+        for (int i = 0; i < j; i++)
+        {
+            if (v[i] > v[i + 1])
+                trocar(v, i, i + 1);
+        }
     }
 }
