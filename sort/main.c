@@ -2,9 +2,7 @@
 #include <stdlib.h>
 #include "sort.h"
 
-#define VET_1_SIZE 1
-#define VET_2_SIZE 0
-#define VET_3_SIZE 10
+//#define DEBUG 1
 
 void imprimir(int *v, int size)
 {
@@ -20,28 +18,21 @@ void imprimir(int *v, int size)
 int main(int argc, char **argv)
 {
     int n = atoi(argv[1]);
+    int *vet = vetorAleatorio(n, 99, n * 100);
 
-    int vet1[VET_1_SIZE] = {4};
-    int vet2[VET_2_SIZE] = {};
-    int *vet3 = vetorAleatorio(n, 99, n * 100);
-    imprimir(vet1, VET_1_SIZE);
+    #ifdef DEBUG
+    imprimir(vet, n);
+    #endif
 
     // selectionSort(vet, 10);
-    bubbleSort(vet1, VET_1_SIZE);
-    imprimir(vet1, VET_1_SIZE);
-    printf("\n");
-
-    imprimir(vet2, VET_2_SIZE);
-    // selectionSort(vet, 10);
-    bubbleSort(vet2, VET_2_SIZE);
-    imprimir(vet2, VET_2_SIZE);
-    printf("\n");
-
-    imprimir(vet3, n);
-    // selectionSort(vet, 10);
-    bubbleSort(vet3, n);
-    imprimir(vet3, n);
-    free(vet3);
+    //bubbleSort(vet3, n);
+    inserctionSort(vet, n);
+    
+    #ifdef DEBUG
+    imprimir(vet, n);
+    #endif
+    
+    free(vet);
 
     return 0;
 }
