@@ -1,6 +1,18 @@
 #include "sort.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <limits.h>
+
+void imprimir(int *v, int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        printf("%d", v[i]);
+        if (i < size)
+            printf(", ");
+    }
+    printf("\n");
+}
 
 int *vetorAleatorio(int n, int seed, int max)
 {

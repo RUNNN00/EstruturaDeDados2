@@ -4,17 +4,6 @@
 
 #define DEBUG 1
 
-void imprimir(int *v, int size)
-{
-    for (int i = 0; i < size; i++)
-    {
-        printf("%d", v[i]);
-        if (i < size)
-            printf(", ");
-    }
-    printf("\n");
-}
-
 int main(int argc, char **argv)
 {
     int n = atoi(argv[1]);
