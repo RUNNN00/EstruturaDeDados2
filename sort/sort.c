@@ -122,3 +122,38 @@ void mergeSort(int *v, int p, int q, int r)
     free(e);
     free(d);
 }
+
+// heapSort ================================================
+void trocar(int* v, int a, int b){
+    int aux = v[a];
+    v[a] = v[b];
+    v[b] = aux;
+}
+
+void maxHeapify(int* v, int i, int th) {
+    int e = (2*i)+1;
+    int d = e+1;
+    int maior = i;
+    if ((e < th) && (v[e] > v[i]))
+        maior = e;
+    if ((d < th) && (v[d] > v[maior]))
+        maior = d;
+    if (maior != i) {
+        trocar(v, maior, i);
+        maxHeapify(v, maior, th);
+    }
+}
+
+void buildMaxHeap(int* v, int n) {
+    for (int i = (n-2)/2; i >= 0; i--) {
+        maxHeapify(v, i, n);
+    }
+}
+
+void heapSort(int *v, int n) {
+    buildMaxHeap(v, n);
+    for (int i = n-1; i > 0; i--) {
+        trocar(v, 0, i);
+        maxHeapify(v, 0, i);
+    }
+}
