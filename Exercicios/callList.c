@@ -1,8 +1,7 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-void selectionSort(char **c, int count)
+void selectionSort(char c[5][20], int count)
 {
     for (int i = 0; i < count; i++)
     {
@@ -27,35 +26,15 @@ int main()
     int count = 0;
 
     scanf("%d %d", &count, &drawn);
-    char **names = (char **)malloc(sizeof(char *) * count);
-
-    if (names == NULL)
-    {
-        printf("error\n");
-        return 0;
-    }
+    char names[5][20];
 
     for (int i = 0; i < count; i++)
-    {
-        char *name = (char *)malloc(sizeof(char) * 20);
-        if (name == NULL)
-        {
-            printf("error\n");
-            return 0;
-        }
-        char straux[20];
-        scanf("%s", straux);
-        strcpy(name, straux);
-        names[i] = name;
-    }
+        scanf("%s", names[i]);
 
     // sort
     selectionSort(names, count);
 
     printf("%s\n", names[drawn - 1]);
-    for (int i = 0; i < count; i++) {
-        free(names[i]);
-    }
-    free(names);
+
     return 0;
 }
