@@ -1,18 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*int pmin(int *v, int ini, int fim)
-{
-    int menor = ini;
-    for (int i = ini + 1; i <= fim; i++)
-    {
-        if (v[i] < v[menor]) {
-            menor = i;
-        }
-    }
-    return menor;
-}*/
-
 void trocar(int *v, int a, int b)
 {
     int aux = v[a];
@@ -20,29 +8,10 @@ void trocar(int *v, int a, int b)
     v[b] = aux;
 }
 
-void trocarCount(int *v, int a, int b, int *count)
-{
-    *count += 1;
-    trocar(v, a, b);
-}
-
-
-/*int selectionSort(int *v, int qtd)
-{
-    int count = qtd;
-    for (int i = qtd - 1; i > 0; i--)
-    {
-        int menor = pmin(v, 0, i);
-        trocar(v, menor, i, &count);
-    }
-    return count;
-}*/
-
 int maxHeapify(int* v, int i, int th) {
     int e = 2 * i + 1;
     int d = e + 1;
     int maior = i;
-    int count = 0;
 
     if ((e < th) && (v[e] < v[i]))
         maior = e;
@@ -51,10 +20,9 @@ int maxHeapify(int* v, int i, int th) {
         maior = d;
     
     if (maior != i) {
-        trocarCount(v, maior, i, &count);
+        trocar(v, maior, i);
         maxHeapify(v, maior, th);
     }
-    return count;
 }
 
 void buildMaxHeap(int* v, int n) {
@@ -63,46 +31,63 @@ void buildMaxHeap(int* v, int n) {
     }
 }
 
-int heapSort(int *v, int n) {
-    int count = 0;
+void heapSort(int *v, int n) {
     buildMaxHeap(v, n);
     for (int i = n-1; i > 0; i--) {
         trocar(v, 0, i);
-        count += maxHeapify(v, 0, i);
+        maxHeapify(v, 0, i);
     }
-    return count;
 }
 
 int main()
 {
-    int qtds[10];
-    int p[10][1000];
+    int **compare;
+    int **p;
+    int *sizes;
     int n;
     scanf("%d", &n);
+
+    p = (int**) malloc(sizeof(int*) * n);
+    compare = (int**) malloc(sizeof(int*) * n);
+    sizes = (int*) malloc(sizeof(int) * n);
 
     for (int i = 0; i < n; i++)
     {
         int m = 0;
         scanf("%d", &m);
 
+        p[i] = (int*) malloc(sizeof(int) * m);
+        compare[i] = (int*) malloc(sizeof(int) * m);
+        sizes[i] = m;
+
         for (int j = 0; j < m; j++)
         {
             scanf("%d", &p[i][j]);
+            compare[i][j] = p[i][j];
         }
         
-        qtds[i] = heapSort(p[i], m);
+        heapSort(p[i], m);
     }
 
-    for (int i = 0; i < n; i++){
-        printf("%d\n", qtds[i]);
-    }
-
-    /*for (int i = 0; i < n; i++) {
-        for (int j = 0; j < 3; j++) {
-            printf("%d ", p[i][j]);
+    for (int i = 0; i < n; i++) {
+        int count = 0;
+        for (int j = 0; j < sizes[i]; j++) {
+            if (p[i][j] == compare[i][j])
+                count += 1;
         }
-        printf("\n");
-    }*/
+        printf("%d\n", count);
+    }
+
+    // for (int i = 0; i < n; i++) {
+    //     for (int j = 0; j < sizes[i]; j++) {
+    //         printf("%d ", p[i][j]);
+    //     }
+    //     printf("\n");
+    // }
+
+    free(compare);
+    free(p);
+    free(sizes);
 
     return 0;
 }
