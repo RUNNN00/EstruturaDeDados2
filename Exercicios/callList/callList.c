@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void selectionSort(char c[5][20], int count)
+void selectionSort(char c[][21], int count)
 {
     for (int i = 0; i < count; i++)
     {
@@ -22,19 +22,20 @@ void selectionSort(char c[5][20], int count)
 
 int main()
 {
-    int drawn = 0;
-    int count = 0;
+    int k = 0;
+    int n = 0;
+    char names[100][21];
 
-    scanf("%d %d", &count, &drawn);
-    char names[5][20];
+    scanf("%d %d", &n, &k);
 
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < n; i++) {        
         scanf("%s", names[i]);
+    }
 
     // sort
-    selectionSort(names, count);
+    selectionSort(names, n);
 
-    printf("%s\n", names[drawn - 1]);
+    printf("%s\n", names[k - 1]);
 
     return 0;
 }
