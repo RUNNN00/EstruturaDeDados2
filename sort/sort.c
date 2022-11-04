@@ -157,3 +157,96 @@ void heapSort(int *v, int n) {
         maxHeapify(v, 0, i);
     }
 }
+
+int partition(int *v, int p, int r){
+    int x = v[r];
+    int i = p-1;
+    for(int j = p; j < r; j++){
+        if(v[j] <= x){
+            trocar(v, i+1, j);
+            i++;
+        }
+    }
+    trocar(v, i+1, r);
+    return i+1;
+}
+
+void QuickSort(int *v, int p, int r){
+    if(p < r){
+        int q = partition(v, p, r);
+        QuickSort(v, p, q-1);
+        QuickSort(v, q+1, r);
+    }
+}
+
+int MaxInfoChave(Info* v, int n){
+    int maior = 0;
+    for(int i = 1; i < n; i++){
+        if(v[i].chave > v[maior].chave){
+            i = maior;
+        }
+    }
+    return v[maior].chave;
+}
+
+void CountingSort(Info* v, int n){
+    int i, j, k, t, acum=0;
+    k = MaxInfoChave(v, n);
+    int *c = calloc(k+1, sizeof(int));
+    Info* s = malloc(sizeof(Info) * n);
+    
+    for(j = 0; j < n; j++)
+        c[v[j].chave]++;
+    
+    for(i = 0; i <=k; i++){
+        t = c[i];
+        c[i] = acum;
+        acum += t;
+    }
+
+    for(i = 0; i < n; i++){
+        s[c[v[i].chave]] = v[i];
+        c[v[i].chave]++;
+    }
+
+    memcpy(v, s, sizeof(Info) * n);
+    free(s);
+    free(c);
+}
+
+void counting_sort(int *v, int n, int div, int base, int *temp){
+    int i, t, c[base], acum = 0;
+    memset(c, 0, base * sizeof(int));
+
+    #define DIGIT(X) (X / div) % base
+
+    for(i = 0; i < n; i++){
+        c[DIGIT(v[i])]++;
+    }
+
+    for(i = 0; i < base; i++){
+        t = c[i];
+        c[i] = acum;
+        acum += t;
+    }
+
+    for(i = 0; i < n; i++){
+        temp[c[DIGIT(v[i])]] = v[i];
+        c[DIGIT(v[i])]++;
+    }
+    
+    memcpy(v, temp, sizeof(int) * n);
+
+}
+
+void RadixSort(int *v, int n){
+    int k, div = 1;
+    k = v[pmax(v, 0, n-1)];
+    int *temp = malloc(sizeof(int) * n);
+    while(k > 0){
+        counting_sort(v, n, div, 10, temp);
+        div *= 10;
+        k /= 10;
+    }
+    free(temp);
+}

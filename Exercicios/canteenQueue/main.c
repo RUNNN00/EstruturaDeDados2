@@ -13,15 +13,19 @@
     return menor;
 }*/
 
-void trocar(int *v, int a, int b, int *count)
+void trocar(int *v, int a, int b)
 {
-    if (v[a] != v[b])
-        *count -= 2;
-
     int aux = v[a];
     v[a] = v[b];
     v[b] = aux;
 }
+
+void trocarCount(int *v, int a, int b, int *count)
+{
+    *count += 1;
+    trocar(v, a, b);
+}
+
 
 /*int selectionSort(int *v, int qtd)
 {
@@ -34,10 +38,11 @@ void trocar(int *v, int a, int b, int *count)
     return count;
 }*/
 
-void maxHeapify(int* v, int i, int th) {
+int maxHeapify(int* v, int i, int th) {
     int e = 2 * i + 1;
     int d = e + 1;
     int maior = i;
+    int count = 0;
 
     if ((e < th) && (v[e] < v[i]))
         maior = e;
@@ -46,9 +51,10 @@ void maxHeapify(int* v, int i, int th) {
         maior = d;
     
     if (maior != i) {
-        trocar(v, maior, i);
+        trocarCount(v, maior, i, &count);
         maxHeapify(v, maior, th);
     }
+    return count;
 }
 
 void buildMaxHeap(int* v, int n) {
@@ -58,11 +64,11 @@ void buildMaxHeap(int* v, int n) {
 }
 
 int heapSort(int *v, int n) {
-    int count = n;
+    int count = 0;
     buildMaxHeap(v, n);
     for (int i = n-1; i > 0; i--) {
-        trocar(v, 0, i, &count);
-        maxHeapify(v, 0, i);
+        trocar(v, 0, i);
+        count += maxHeapify(v, 0, i);
     }
     return count;
 }
