@@ -44,9 +44,54 @@ static NOH* inserir(NOH* N, int chave, int valor) {
 // Caso a chave já esteja na árvore, o valor é atualizado.
 void ABB_Inserir(ABB*A , int chave, int valor);
 
+static NOH* ABB_Min_(NOH* N) {
+    if (N == NULL) {
+        return NULL;
+    }
+    NOH* p = N;
+    while (p->esq != NULL) {
+        p = p->esq;
+    }
+}
+
+static NOH* ABB_Remover_R(NOH* N, int chave) {
+    if (N == NULL)
+        return NULL;
+    if (chave < N->chave)
+        N->esq = ABB_Remover_R(N->esq, chave);
+    else {
+        if (chave > N->chave)
+            N->dir = ABB_Remover_R(N->dir, chave);
+        else {
+            NOH* t = NULL;
+            // N->chave é a chave a ser removida
+            if (N->esq == NULL) {
+                //caso 1, caso 2 (filho a direita)
+                t = N->dir;
+                free(N);
+                return t;
+            }
+            if (N->dir == NULL) {
+                //caso 2 (filho a esquerda)
+                t = N->esq;
+                free(N);
+                return t;
+            }
+            //caso 3 sub-tree a esquerda e a direita
+            t = ABB_Min_(N->dir); // econtrar o sucesssor
+            N->valor = t->valor;
+            N->chave = t->chave;
+            N->dir = ABB_Remover_R(N->dir, t->chave); // remover o sucessor recursivamente
+        }
+    }
+    return N;
+}
+
 // remove a chave da árvore A.
 // Caso a chave não esteja na árvore, ela não é alterada.
-void ABB_Remover(ABB* A, int chave);
+void ABB_Remover(ABB* A, int chave) {
+    A->raiz = ABB_Remover_R(A->raiz, chave);
+}
 
 void ABB_Destruir(ABB* A);
 
