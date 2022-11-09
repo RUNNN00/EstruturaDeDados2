@@ -28,3 +28,7 @@ void ABB_Remover(ABB* A, int chave);
 void ABB_Destruir(ABB* A);
 
 void ABB_Imprimir(ABB *A);
+
+void ABB_ImprimirOrdemCrescente(ABB* A);
+
+int ABB_N(ABB* A);

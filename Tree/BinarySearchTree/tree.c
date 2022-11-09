@@ -1,5 +1,6 @@
 #include "tree.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 ABB* ABB_Criar() {
     ABB* nova = malloc(sizeof(ABB));
@@ -42,7 +43,9 @@ static NOH* inserir(NOH* N, int chave, int valor) {
 
 // Insere o par (chave, valor) na árvore A. 
 // Caso a chave já esteja na árvore, o valor é atualizado.
-void ABB_Inserir(ABB*A , int chave, int valor);
+void ABB_Inserir(ABB*A , int chave, int valor) {
+    A->raiz = inserir(A->raiz, chave, valor);
+}
 
 static NOH* ABB_Min_(NOH* N) {
     if (N == NULL) {
@@ -93,8 +96,20 @@ void ABB_Remover(ABB* A, int chave) {
     A->raiz = ABB_Remover_R(A->raiz, chave);
 }
 
-void ABB_Destruir(ABB* A);
+// DESTRUIR
+void ABB_Destruir_R(NOH* N) {
+    if (N = NULL)
+        return;
+    ABB_Destruir_R(N->esq);
+    ABB_Destruir_R(N->dir);
+    free(N);
+}
 
+void ABB_Destruir(ABB* A) {
+    ABB_Destruir_R(A->raiz);
+}
+
+// IMPRIMIR ARVORE
 void ABB_Imprimir_R(NOH *A, int nivel, int lado){
     int i;
     for(int i = 0; i < nivel; i++){
@@ -112,4 +127,31 @@ void ABB_Imprimir_R(NOH *A, int nivel, int lado){
 
 void ABB_Imprimir(ABB *A){
     ABB_Imprimir_R(A->raiz, 0, 'r');
+}
+
+// IMPRIMIR ORDEM CRESCENTE
+void ABB_Imprimir_OC_R(NOH* N) {
+    if (N == NULL)
+        return;
+    ABB_Imprimir_OC_R(N->esq);
+    printf("%d ", N->chave);
+    ABB_Imprimir_OC_R(N->dir);
+}
+
+
+void ABB_ImprimirOrdemCrescente(ABB* A) {
+    ABB_Imprimir_OC_R(A->raiz);
+    printf("\n");
+}
+
+// NUMERO DE CHAVES NA ARVORE
+int ABB_N_R(NOH* N) {
+    if (N == NULL)
+        return 0;
+    return ABB_N_R(N->esq) + ABB_N_R(N->dir) + 1;
+
+}
+
+int ABB_N(ABB* A) {
+    return ABB_N_R(A->raiz);
 }
