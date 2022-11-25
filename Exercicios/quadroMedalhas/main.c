@@ -8,14 +8,16 @@ typedef struct {
     int b;
 } Pais;
 
-void definirPais(Pais* A, Pais* B) {
+// verificado
+void definirPais(Pais* dest, Pais* src) {
 
-    strcpy(A->nome, B->nome);
-    A->o = B->o;
-    A->p = B->p;
-    A->b = B->b;
+    strcpy(dest->nome, src->nome);
+    dest->o = src->o;
+    dest->p = src->p;
+    dest->b = src->b;
 }
 
+// verificado
 void trocar(Pais *v, int a, int b)
 {
     Pais aux;
@@ -41,13 +43,13 @@ int maxHeapify(Pais* v, int i, int th) {
     }
 }
 
-void buildMaxHeap(int* v, int n) {
+void buildMaxHeap(Pais* v, int n) {
     for (int i = (n-2)/2; i >= 0; i--) {
         maxHeapify(v, i, n);
     }
 }
 
-void heapSort(int *v, int n) {
+void heapSort(Pais *v, int n) {
     buildMaxHeap(v, n);
     for (int i = n-1; i > 0; i--) {
         trocar(v, 0, i);
@@ -62,13 +64,10 @@ int main() {
 
     scanf("%d", &n);
 
+    // input
     for (int i = 0; i < n; i++) {
         scanf("%s %d %d %d", p[i].nome, &(p[i].o), &(p[i].p), &(p[i].b));
     }
-
-
-
-
 
     // print
     for (int i = 0; i < n; i++) {
